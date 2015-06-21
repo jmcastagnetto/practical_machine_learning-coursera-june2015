@@ -290,6 +290,17 @@ way the core body moves and the rotation of the forearm, are closely related
 to a correct execution of the biceps curl, and in the case of the metallic
 dumbbell the position changes are readily detected by the magnetometer.
 
+## Reproducibility information
+
+The source code for the R Markdown document and other accessory artifacts 
+is available at the github repository:
+[https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015](https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015)
+
+```{r}
+sessionInfo()
+```
+
+
 ## Appendices
 
 ### `r appendix_num("app_sensor_columns", "Columns related to the sensors in the original training dataset")`
@@ -348,12 +359,3 @@ tvi_rf <- sjt.df(round(df, 2), describe = FALSE,
 **`r table_num("trfimp", "Variable importance per class and overall")`**
 `r tvi_rf$knitr`
 
-### `r appendix_num("reproducibility", "Reproducibility information")`
-
-The source code for the R Markdown document and other accessory artifacts 
-is available at the repository:
-[https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015](https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015)
-
-```{r}
-sessionInfo()
-```

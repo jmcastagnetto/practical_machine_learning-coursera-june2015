@@ -289,6 +289,54 @@ way the core body moves and the rotation of the forearm, are closely related
 to a correct execution of the biceps curl, and in the case of the metallic
 dumbbell the position changes are readily detected by the magnetometer.
 
+## Reproducibility information
+
+The source code for the R Markdown document and other accessory artifacts 
+is available at the github repository:
+[https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015](https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015)
+
+
+```
+## R version 3.2.0 (2015-04-16)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 14.04.2 LTS
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] randomForest_4.6-7 doMC_1.3.3         iterators_1.0.7    foreach_1.4.2     
+##  [5] captioner_2.2.2    knitr_1.8          caret_6.0-47       ggplot2_1.0.0     
+##  [9] lattice_0.20-29    sjPlot_1.8.1      
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.11.5         formatR_1.0         plyr_1.8.1         
+##  [4] class_7.3-10        tools_3.2.0         digest_0.6.4       
+##  [7] lme4_1.1-6          evaluate_0.5.5      gtable_0.1.2       
+## [10] nlme_3.1-120        mgcv_1.8-6          psych_1.4.5        
+## [13] Matrix_1.1-4        DBI_0.3.1           yaml_2.1.13        
+## [16] brglm_0.5-9         SparseM_1.6         proto_0.3-10       
+## [19] e1071_1.6-4         BradleyTerry2_1.0-5 dplyr_0.4.1        
+## [22] stringr_0.6.2       gtools_3.4.1        sjmisc_1.0.2       
+## [25] grid_3.2.0          nnet_7.3-9          rmarkdown_0.6.1    
+## [28] minqa_1.2.3         reshape2_1.4        tidyr_0.2.0        
+## [31] car_2.0-25          magrittr_1.0.1      codetools_0.2-11   
+## [34] scales_0.2.4        htmltools_0.2.6     MASS_7.3-33        
+## [37] splines_3.2.0       assertthat_0.1      tufterhandout_1.2.1
+## [40] pbkrtest_0.3-8      colorspace_1.2-6    quantreg_5.05      
+## [43] munsell_0.4.2       RcppEigen_0.3.2.1.2
+```
+
+
 ## Appendices
 
 ### Appendix  1: Columns related to the sensors in the original training dataset
@@ -1167,49 +1215,3 @@ dumbbell the position changes are readily detected by the magnetometer.
 </table>
 
 
-### Appendix  4: Reproducibility information
-
-The source code for the R Markdown document and other accessory artifacts 
-is available at the repository:
-[https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015](https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015)
-
-
-```
-## R version 3.2.0 (2015-04-16)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.2 LTS
-## 
-## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] parallel  stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
-## 
-## other attached packages:
-##  [1] randomForest_4.6-7 doMC_1.3.3         iterators_1.0.7    foreach_1.4.2     
-##  [5] captioner_2.2.2    knitr_1.8          caret_6.0-47       ggplot2_1.0.0     
-##  [9] lattice_0.20-29    sjPlot_1.8.1      
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.11.5         formatR_1.0         plyr_1.8.1         
-##  [4] class_7.3-10        tools_3.2.0         digest_0.6.4       
-##  [7] lme4_1.1-6          evaluate_0.5.5      gtable_0.1.2       
-## [10] nlme_3.1-120        mgcv_1.8-6          psych_1.4.5        
-## [13] Matrix_1.1-4        DBI_0.3.1           yaml_2.1.13        
-## [16] brglm_0.5-9         SparseM_1.6         proto_0.3-10       
-## [19] e1071_1.6-4         BradleyTerry2_1.0-5 dplyr_0.4.1        
-## [22] stringr_0.6.2       gtools_3.4.1        sjmisc_1.0.2       
-## [25] grid_3.2.0          nnet_7.3-9          rmarkdown_0.6.1    
-## [28] minqa_1.2.3         reshape2_1.4        tidyr_0.2.0        
-## [31] car_2.0-25          magrittr_1.0.1      codetools_0.2-11   
-## [34] scales_0.2.4        htmltools_0.2.6     MASS_7.3-33        
-## [37] splines_3.2.0       assertthat_0.1      tufterhandout_1.2.1
-## [40] pbkrtest_0.3-8      colorspace_1.2-6    quantreg_5.05      
-## [43] munsell_0.4.2       RcppEigen_0.3.2.1.2
-```
