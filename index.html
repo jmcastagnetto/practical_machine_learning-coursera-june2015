@@ -173,7 +173,7 @@ integer
 </table>
 </aside>
 <p>The first seven columns of the training dataset (<em>X</em>, <em>user_name</em>, <em>raw_timestamp_part_1</em>, <em>raw_timestamp_part_2</em>, <em>cvtd_timestamp</em>, <em>new_window</em>, <em>num_window</em>) are not related to the sensor measurements, but rather to the identity of the person, and the time stamps and capture windows for the sensor data (see Table 1). Because I am trying to produce a predictive model that only relies on the quantitative sensor measurements, I decided to remove these columns. In a similar fashion, the first seven columns of the testing dataset were also removed. This operation left me with a total of 153 columns in each data frames.</p>
-<p>Thus, the data frame has, for each of the four sensors (positioned at the arm, forearm, belt, and dumbbell respectively), 38 different measurements (see Table 2 in Appendix 1). So, I will try to select from these 152 variables the ones relevant to predict a good exercise execution.</p>
+<p>Thus, the data frame has, for each of the four sensors (positioned at the arm, forearm, belt, and dumbbell respectively), 38 different measurements (see Table 2 in Appendix 1). The problem then is to select from these 152 variables the ones relevant to predict a good exercise execution.</p>
 <p>The automatic column type assignment of the <code>read.csv()</code> R function was not always correct, in particular because several of the numeric columns contained text data coming from sensor reading errors (e.g. “#DIV/0!”). So, I forced all of the sensor readings to be numeric, and set the <code>classe</code> column as a factor.</p>
 <p>As a result of the type assignment some columns contained only <code>NA</code> values, so these were removed from the dataset. Also, by using the <code>nearZeroVar()</code> function of the <code>caret</code> package, I eliminated columns that were considered uninformative (zero or near zero variance predictors).</p>
 <aside>
@@ -206,7 +206,7 @@ Number of columns
 </table>
 </aside>
 <p>After that last operation, the training data frame had only 118 variables including the classification column. Of these variables, I checked to see how many of them contained too many missing data values. Initially I set the threshold to 80%, but soon found out that there were two cases: columns without any missing data, and columns that had about 98% missing data (see Table 3). Trying to impute values in the latter cases could be done, but is unlikely that it will give anything reasonable or useful as a predictor, thus, those 65 columns were also removed.</p>
-<p>In the end we will be using measurements of the <em>x</em>, <em>y</em>, and <em>z</em> axis components of the acceleration, gyroscope, and magnetometer sensors, as well as the <em>overall acceleration</em>, <em>pitch</em>, <em>roll</em> and <em>yaw</em> measurements (see Table 4 in Appendix 2).</p>
+<p>In the end we will use 52 measurements of the <em>x</em>, <em>y</em>, and <em>z</em> axis components of the acceleration, gyroscope, and magnetometer sensors, as well as the <em>overall acceleration</em>, <em>pitch</em>, <em>roll</em> and <em>yaw</em> (see Table 4 in Appendix 2), to predict whether the exercise was done correctly.</p>
 </div>
 <div id="generating-and-validating-a-random-forest-predictive-model" class="section level2">
 <h2>Generating and validating a Random Forest predictive model</h2>
