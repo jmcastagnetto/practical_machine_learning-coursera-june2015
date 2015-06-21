@@ -6,7 +6,7 @@ June, 2015
 
 ## Introduction
 
-In the "Practical Machine Learning" course at Coursera, the class was given
+For the "Practical Machine Learning" course at Coursera, the class was given
 a dataset from a Human Activity Recognition (HAR) study that tries to assess 
 the quality of an activity (defined as <q>... *the adherence of the execution 
 of an activity to its specification* ...</q>), namely a weight lifting exercise,
@@ -29,7 +29,7 @@ rather to assess *how well* is the activity being performed.
 
 [^sensors]: Image obtained from http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises
 
-In the aforementioned study the sensors <q>... *provide three-axes
+The aforementioned study used sensors that <q>... *provide three-axes
 acceleration, gyroscope and magnetometer data* ...</q>, with a Bluetooth
 module that allowed experimental data capture. These sensors
 were attached (see *Figure  1*), to 
@@ -115,12 +115,12 @@ these columns. In a similar fashion, the first seven columns of the testing
 dataset were also removed. This operation left me with a total of
 153 columns in each data frames.
 
-The data frames contained for each of the four sensors
+Thus, the data frame has, for each of the four sensors
 (positioned at the arm, forearm, belt, and dumbbell respectively), 
 38 different measurements (see Table  2 in 
 Appendix  1). So, I will try to
-select from these 152 variables the ones that are
-more relevant for prediction.
+select from these 152 variables the ones
+relevant to predict a good exercise execution.
 
 The automatic column type assignment of the `read.csv()` R function was not
 always correct, in particular because several of the numeric columns contained 
@@ -180,7 +180,7 @@ Appendix  2).
 
 ## Generating and validating a Random Forest predictive model
 
-As the provided testing dataset could not be used to validate 
+Because the provided testing dataset could not be used to validate 
 the predictive model, I decided to split the
 "training" dataset into one to be used to perform the random forest model 
 training (75% of the data), and another to validate it (25% of the data).
