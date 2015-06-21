@@ -3,7 +3,7 @@ June 2015 session of the "Practical Machine Learning" at Coursera
 ([https://class.coursera.org/predmachlearn-015](https://class.coursera.org/predmachlearn-015))
 
 The HTML version of the report can be seen at:
-
+[https://jmcastagnetto.github.io/practical_machine_learning-coursera-june2015/](https://jmcastagnetto.github.io/practical_machine_learning-coursera-june2015/)
 
 The assignment prediction results are included in under the directory
 `prediction`
