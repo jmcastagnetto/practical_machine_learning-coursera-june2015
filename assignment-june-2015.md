@@ -118,8 +118,8 @@ dataset were also removed. This operation left me with a total of
 Thus, the data frame has, for each of the four sensors
 (positioned at the arm, forearm, belt, and dumbbell respectively), 
 38 different measurements (see Table  2 in 
-Appendix  1). So, I will try to
-select from these 152 variables the ones
+Appendix  1). The problem then is 
+to select from these 152 variables the ones
 relevant to predict a good exercise execution.
 
 The automatic column type assignment of the `read.csv()` R function was not
@@ -171,12 +171,12 @@ Trying to impute values in the latter cases could be done, but
 is unlikely that it will give anything reasonable or useful as a predictor, 
 thus, those 65 columns were also removed.
 
-In the end we will be using measurements of the *x*, *y*, and *z* axis 
-components of the acceleration, gyroscope, and magnetometer sensors, 
-as well as the *overall acceleration*, *pitch*, *roll* and *yaw*
-measurements (see 
-Table  4 in
-Appendix  2).
+In the end we will use 52 measurements of 
+the *x*, *y*, and *z* axis  components of the acceleration, gyroscope, and magnetometer sensors, 
+as well as the *overall acceleration*, *pitch*, *roll* and *yaw* 
+(see Table  4 in
+Appendix  2),
+to predict whether the exercise was done correctly.
 
 ## Generating and validating a Random Forest predictive model
 

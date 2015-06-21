@@ -130,8 +130,8 @@ dataset were also removed. This operation left me with a total of
 Thus, the data frame has, for each of the four sensors
 (positioned at the arm, forearm, belt, and dumbbell respectively), 
 38 different measurements (see `r table_num("sensorcolumns", display="cite")` in 
-`r appendix_num("app_sensor_columns", display="cite")`). So, I will try to
-select from these `r ncol(train_data) - 1` variables the ones
+`r appendix_num("app_sensor_columns", display="cite")`). The problem then is 
+to select from these `r ncol(train_data) - 1` variables the ones
 relevant to predict a good exercise execution.
 
 The automatic column type assignment of the `read.csv()` R function was not
@@ -192,12 +192,12 @@ Trying to impute values in the latter cases could be done, but
 is unlikely that it will give anything reasonable or useful as a predictor, 
 thus, those `r na_perc_df[2,2]` columns were also removed.
 
-In the end we will be using measurements of the *x*, *y*, and *z* axis 
-components of the acceleration, gyroscope, and magnetometer sensors, 
-as well as the *overall acceleration*, *pitch*, *roll* and *yaw*
-measurements (see 
-`r table_num("sensorcolumns2", display="cite")` in
-`r appendix_num("app_sensor_columns2", display="cite")`).
+In the end we will use `r na_perc_df[1,2] - 1` measurements of 
+the *x*, *y*, and *z* axis  components of the acceleration, gyroscope, and magnetometer sensors, 
+as well as the *overall acceleration*, *pitch*, *roll* and *yaw* 
+(see `r table_num("sensorcolumns2", display="cite")` in
+`r appendix_num("app_sensor_columns2", display="cite")`),
+to predict whether the exercise was done correctly.
 
 ## Generating and validating a Random Forest predictive model
 
