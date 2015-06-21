@@ -28,7 +28,7 @@ appendix_num <- captioner(prefix = "Appendix")
 
 ## Introduction
 
-In the "Practical Machine Learning" course at Coursera, the class were been given
+In the "Practical Machine Learning" course at Coursera, the class was given
 a dataset from a Human Activity Recognition (HAR) study that tries to assess 
 the quality of an activity (defined as <q>... *the adherence of the execution 
 of an activity to its specification* ...</q>), namely a weight lifting exercise,
@@ -38,7 +38,7 @@ using data from sensors attached to the individuals and their equipment.
 For more details see "[The Weight Lifting Exercises Dataset](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises)"
 </aside>
 
-In contrast to other HAR studies, the one that generated the datasets[^velloso]
+In contrast to other HAR studies, this one[^velloso]
 does not attempt to distinguish *what* activity is being done, but 
 rather to assess *how well* is the activity being performed.
 
@@ -51,12 +51,12 @@ rather to assess *how well* is the activity being performed.
 
 [^sensors]: Image obtained from http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises
 
-In the aforementioned study they use sensors that <q>... *provide three-axes
+In the aforementioned study the sensors <q>... *provide three-axes
 acceleration, gyroscope and magnetometer data* ...</q>, with a Bluetooth
-module that allowed them to capture the experimental data. These sensors
+module that allowed experimental data capture. These sensors
 were attached (see *`r fig_num("body sensors", display="cite")`*), to 
-<q>... *six male participants aged between 20-28 years, with little
-weight lifting experience* ...</q> who performed one set of ten repetitions
+<q>... *six male participants aged between 20-28 years* ...</q> 
+who performed one set of ten repetitions
 of the Unilateral Dumbbell Biceps Curl with a 1.25kg (light) dumbbell, 
 in five different manners (one correct and four incorrect):
 
@@ -88,13 +88,13 @@ test_orig <- getdata(url2)
 There were two datasets in CSV format, one to be used for
 [training](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-train_data.csv), and another one for [testing](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing_data.csv). The training dataset contained `r nrow(train_orig)` rows and 
 `r ncol(train_orig)` columns, including the `classe` variable 
-which classified the entry according to the manner in which it was 
+which classified the entry according to the how well the exercise was 
 performed (*vide supra*). The testing  dataset has only 
-`r nrow(test_orig)` rows and `r ncol(test_orig)` columns, with the difference
-that instead of the `classe` variable, there is an `problem_id` column to be
-used as an identifier for the prediction results, and was supposed to be used
-for a second part of the assignment dealing that dealt with specific class
-prediction.
+`r nrow(test_orig)` rows and `r ncol(test_orig)` columns, and
+instead of the `classe` variable there is an `problem_id` column to be
+used as an identifier for the prediction results. The latter 
+was to be used for a different part of the assignment dealing 
+with specific class prediction.
 
 <aside>
 ```{r table7cols}
@@ -123,22 +123,22 @@ for the sensor data
 (see `r table_num("train7cols", display="cite")`). 
 Because I am trying to produce a predictive model that only relies on 
 the quantitative sensor measurements, I decided to remove
-these columns and only consider the sensor values as important factors.
-In a similar fashion, the first seven columns of the testing datasets were also removed. This operation left me with `r ncol(train_data)` columns in the
-data frames.
+these columns. In a similar fashion, the first seven columns of the testing 
+dataset were also removed. This operation left me with 
+`r ncol(train_data)` columns in both data frames.
 
-In the resulting data, for each of the four sensors
-positioned at the arm, forearm, belt, and dumbbell respectively, there are
-38 related measurements (see `r table_num("sensorcolumns", display="cite")` in 
+The data frames contained for each of the four sensors
+(positioned at the arm, forearm, belt, and dumbbell respectively), 
+38 different measurements (see `r table_num("sensorcolumns", display="cite")` in 
 `r appendix_num("app_sensor_columns", display="cite")`). So, I will try to
-select from these `r ncol(train_data) - 1` numeric variables, the ones that are
-more relevant for a predictive model.
+select from these `r ncol(train_data) - 1` variables the ones that are
+more relevant for prediction.
 
-The automatic column type assignment from the `read.csv()` R function was not
+The automatic column type assignment of the `read.csv()` R function was not
 always correct, in particular because several of the numeric columns contained 
 text data coming from sensor reading errors (e.g. "#DIV/0!"). So, I forced all
 of the sensor readings to be numeric, and also set the `classe` column as a
-factor that contained the exercise classification.
+factor.
 
 ```{r set-types}
 # set classe as a factor
@@ -149,9 +149,9 @@ numeric_cols <- colnames(train_data)[-ncol(train_data)]
 train_data[numeric_cols] <- sapply(train_data[numeric_cols], as.numeric)
 ```
 
-As a result of the type assignment, some columns contained only `NA` values,
-so these were not useful and were removed from the dataset. Also, using the
-`nearZeroVar()` function of the `caret` package, I eliminated the columns that
+As a result of the type assignment some columns contained only `NA` values,
+so these were removed from the dataset. Also, by using the
+`nearZeroVar()` function of the `caret` package, I eliminated columns that
 were considered uninformative (zero or near zero variance predictors).
 
 ```{r remove-NAs}
@@ -183,14 +183,14 @@ na_tbl1 <- sjt.df(na_perc_df, describe = FALSE, showRowNames = FALSE,
 
 After that last operation, the training data frame had only 
 `r ncol(train_data)` variables including the classification column.
-Of these remaining variables, I checked to see how many of them contained 
+Of these variables, I checked to see how many of them contained 
 too many missing data values. Initially I set the threshold to 80%, but 
 soon found out that there were two cases: columns without any missing 
-data, and columns that had about 98% of their data as missing 
+data, and columns that had about 98% missing data 
 (see `r table_num("tabmissing", display="cite")`). 
 Trying to impute values in the latter cases could be done, but
-is unlikely that we would obtain anything reasonable or useful as a predictor, 
-thus, those `r na_perc_df[2,2]` columns were also removed from the dataset.
+is unlikely that it will give anything reasonable or useful as a predictor, 
+thus, those `r na_perc_df[2,2]` columns were also removed.
 
 In the end we will be using measurements of the *x*, *y*, and *z* axis 
 components of the acceleration, gyroscope, and magnetometer sensors, 
@@ -200,12 +200,11 @@ as well as the overall acceleration, pitch, roll and yaw (see
 
 ## Generating and validating a Random Forest predictive model
 
-As the provided testing dataset is to be used in a different part of the
-assignment (prediction), it could not be used to assess the validity 
-of the predictive model I was going to build. So I decided to split the
-given "training" dataset into one to be used to perform the random forest model 
-training (75% of the data), and another to do validate the model (25% of the data).
-The training will also try to assess the quality of the model using an
+As the provided testing dataset could not be used to validate 
+the predictive model, I decided to split the
+"training" dataset into one to be used to perform the random forest model 
+training (75% of the data), and another to validate it (25% of the data).
+The training will also assess the quality of the model using an
 "out of bag" (OOB) error estimate using cross-validation.
 
 ```{r split-train-data}
@@ -217,12 +216,13 @@ train_set <- train_filtered[splitTrain,]
 validation_set <- train_filtered[-splitTrain,]
 ```
 
-The model training was done using the standard random forest
+The model training used the standard random forest
 (`rf`) algorithm[^rfref] method available in the `caret` package, with
 the default parameters and doing a 10-fold cross validation. I used the
-`classe` variable as the dependent and all the other sensor variables as predictors.
-This model gave an OOB error of 0.6%, which indicates that it could be 
-a good classifier when used with a new dataset.
+`classe` variable as the dependent and `r ncol(train_set) - 1`
+sensor variables as predictors.
+This model gave an OOB error of 0.6%, which indicates a possible good
+classifier.
 
 [^rfref]: [randomForest: Breiman and Cutler's random forests for classification and regression](http://cran.r-project.org/web/packages/randomForest/)
 
@@ -253,15 +253,15 @@ Using the reserved validation set, I calculated
 the confusion matrix (`r table_num("cm", display="cite")`),
 and other relevant statistics using the `confusionMatrix()`
 function of the `caret` package. The confusion matrix shows that the
-model does a reasonable good job at predicting the exercise quality class.
+model does a reasonable good job at predicting the exercise quality.
 
 <aside>
 **`r table_num("cm", "Confusion Matrix (Predicted vs Reference) for Random Forest model")`**
 `r tcm$knitr`
 </aside>
 
-Comparing the prediction for validation set with the known class values, 
-yielded an accuracy of `r round(cm_rf$overall["Accuracy"], 4)`
+Using the validation set we get an
+accuracy of `r round(cm_rf$overall["Accuracy"], 4)`
 (95% confidence interval: 
 [`r round(cm_rf$overall["AccuracyLower"], 4)`, 
 `r round(cm_rf$overall["AccuracyUpper"], 4)`]). The estimated accuracy
