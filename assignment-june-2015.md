@@ -125,7 +125,7 @@ more relevant for prediction.
 The automatic column type assignment of the `read.csv()` R function was not
 always correct, in particular because several of the numeric columns contained 
 text data coming from sensor reading errors (e.g. "#DIV/0!"). So, I forced all
-of the sensor readings to be numeric, and also set the `classe` column as a
+of the sensor readings to be numeric, and set the `classe` column as a
 factor.
 
 
@@ -173,7 +173,8 @@ thus, those 65 columns were also removed.
 
 In the end we will be using measurements of the *x*, *y*, and *z* axis 
 components of the acceleration, gyroscope, and magnetometer sensors, 
-as well as the overall acceleration, pitch, roll and yaw (see 
+as well as the *overall acceleration*, *pitch*, *roll* and *yaw*
+measurements (see 
 Table  4 in
 Appendix  2).
 
@@ -200,7 +201,7 @@ classifier.
 
 
 
-Using the reserved validation set, I calculated
+With the reserved validation set, I calculated
 the confusion matrix (Table  5),
 and other relevant statistics using the `confusionMatrix()`
 function of the `caret` package. The confusion matrix shows that the
@@ -261,17 +262,18 @@ model does a reasonable good job at predicting the exercise quality.
 
 </aside>
 
-Using the validation set we get an
+Validating the model results in an
 accuracy of 0.9943
 (95% confidence interval: 
 [0.9918, 
 0.9962]). The estimated accuracy
 is well above the "no information rate" statistic of 
 0.2845.
-The model also has a high kappa statistic of 0.9928,
-which suggest that the process yielded a good classifier. 
-Overall this predictive model compares well with what was reported 
-in the original study (an accuracy of 0.9803).
+The validation results also in a high kappa statistic of 
+0.9928,
+which suggest a that the model is a very good classifier. 
+Overall, this model compares well with  
+the 0.9803 accuracy that was reported in original.
 
 The first 20 model predictors can be seen in Figure  2,
 and the complete list of predictors (ordered by their mean decrease in 

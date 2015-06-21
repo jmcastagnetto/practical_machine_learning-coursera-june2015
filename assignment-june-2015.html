@@ -174,7 +174,7 @@ integer
 </aside>
 <p>The first seven columns of the training dataset (<em>X</em>, <em>user_name</em>, <em>raw_timestamp_part_1</em>, <em>raw_timestamp_part_2</em>, <em>cvtd_timestamp</em>, <em>new_window</em>, <em>num_window</em>) are not related to the sensor measurements, but rather to the identity of the person, and the time stamps and capture windows for the sensor data (see Table 1). Because I am trying to produce a predictive model that only relies on the quantitative sensor measurements, I decided to remove these columns. In a similar fashion, the first seven columns of the testing dataset were also removed. This operation left me with 153 columns in both data frames.</p>
 <p>The data frames contained for each of the four sensors (positioned at the arm, forearm, belt, and dumbbell respectively), 38 different measurements (see Table 2 in Appendix 1). So, I will try to select from these 152 variables the ones that are more relevant for prediction.</p>
-<p>The automatic column type assignment of the <code>read.csv()</code> R function was not always correct, in particular because several of the numeric columns contained text data coming from sensor reading errors (e.g. “#DIV/0!”). So, I forced all of the sensor readings to be numeric, and also set the <code>classe</code> column as a factor.</p>
+<p>The automatic column type assignment of the <code>read.csv()</code> R function was not always correct, in particular because several of the numeric columns contained text data coming from sensor reading errors (e.g. “#DIV/0!”). So, I forced all of the sensor readings to be numeric, and set the <code>classe</code> column as a factor.</p>
 <p>As a result of the type assignment some columns contained only <code>NA</code> values, so these were removed from the dataset. Also, by using the <code>nearZeroVar()</code> function of the <code>caret</code> package, I eliminated columns that were considered uninformative (zero or near zero variance predictors).</p>
 <aside>
 <p><strong>Table 3: Number of columns by percentage of missing values</strong></p>
@@ -206,13 +206,13 @@ Number of columns
 </table>
 </aside>
 <p>After that last operation, the training data frame had only 118 variables including the classification column. Of these variables, I checked to see how many of them contained too many missing data values. Initially I set the threshold to 80%, but soon found out that there were two cases: columns without any missing data, and columns that had about 98% missing data (see Table 3). Trying to impute values in the latter cases could be done, but is unlikely that it will give anything reasonable or useful as a predictor, thus, those 65 columns were also removed.</p>
-<p>In the end we will be using measurements of the <em>x</em>, <em>y</em>, and <em>z</em> axis components of the acceleration, gyroscope, and magnetometer sensors, as well as the overall acceleration, pitch, roll and yaw (see Table 4 in Appendix 2).</p>
+<p>In the end we will be using measurements of the <em>x</em>, <em>y</em>, and <em>z</em> axis components of the acceleration, gyroscope, and magnetometer sensors, as well as the <em>overall acceleration</em>, <em>pitch</em>, <em>roll</em> and <em>yaw</em> measurements (see Table 4 in Appendix 2).</p>
 </div>
 <div id="generating-and-validating-a-random-forest-predictive-model" class="section level2">
 <h2>Generating and validating a Random Forest predictive model</h2>
 <p>As the provided testing dataset could not be used to validate the predictive model, I decided to split the “training” dataset into one to be used to perform the random forest model training (75% of the data), and another to validate it (25% of the data). The training will also assess the quality of the model using an “out of bag” (OOB) error estimate using cross-validation.</p>
 <p>The model training used the standard random forest (<code>rf</code>) algorithm<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> method available in the <code>caret</code> package, with the default parameters and doing a 10-fold cross validation. I used the <code>classe</code> variable as the dependent and 52 sensor variables as predictors. This model gave an OOB error of 0.6%, which indicates a possible good classifier.</p>
-<p>Using the reserved validation set, I calculated the confusion matrix (Table 5), and other relevant statistics using the <code>confusionMatrix()</code> function of the <code>caret</code> package. The confusion matrix shows that the model does a reasonable good job at predicting the exercise quality.</p>
+<p>With the reserved validation set, I calculated the confusion matrix (Table 5), and other relevant statistics using the <code>confusionMatrix()</code> function of the <code>caret</code> package. The confusion matrix shows that the model does a reasonable good job at predicting the exercise quality.</p>
 <aside>
 <strong>Table 5: Confusion Matrix (Predicted vs Reference) for Random Forest model</strong>
 <table style="border-collapse:collapse; border:none;">
@@ -337,7 +337,7 @@ E
 </tr>
 </table>
 </aside>
-<p>Using the validation set we get an accuracy of 0.9943 (95% confidence interval: [0.9918, 0.9962]). The estimated accuracy is well above the “no information rate” statistic of 0.2845. The model also has a high kappa statistic of 0.9928, which suggest that the process yielded a good classifier. Overall this predictive model compares well with what was reported in the original study (an accuracy of 0.9803).</p>
+<p>Validating the model results in an accuracy of 0.9943 (95% confidence interval: [0.9918, 0.9962]). The estimated accuracy is well above the “no information rate” statistic of 0.2845. The validation results also in a high kappa statistic of 0.9928, which suggest a that the model is a very good classifier. Overall, this model compares well with<br />the 0.9803 accuracy that was reported in original.</p>
 <p>The first 20 model predictors can be seen in Figure 2, and the complete list of predictors (ordered by their mean decrease in accuracy) is in Table 6 (Appendix 3)</p>
 <strong>Figure 2: Variable Importance for Random Forest model (first 20 variables)</strong>
 <div class="fullwidth">
