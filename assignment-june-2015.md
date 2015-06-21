@@ -6,7 +6,7 @@ June, 2015
 
 ## Introduction
 
-In the "Practical Machine Learning" course at Coursera, we have been given
+In the "Practical Machine Learning" course at Coursera, the class were been given
 a dataset from a Human Activity Recognition (HAR) study that tries to assess 
 the quality of an activity (defined as <q>... *the adherence of the execution 
 of an activity to its specification* ...</q>), namely a weight lifting exercise,
@@ -16,12 +16,11 @@ using data from sensors attached to the individuals and their equipment.
 For more details see "[The Weight Lifting Exercises Dataset](http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises)"
 </aside>
 
-In contrast to other HAR studies, the one that generated the datasets[^velloso] 
-attempts not to distinguish *what* activity is being done, but rather to assess
-*how well* is the activity being performed.
+In contrast to other HAR studies, the one that generated the datasets[^velloso]
+does not attempt to distinguish *what* activity is being done, but 
+rather to assess *how well* is the activity being performed.
 
 [^velloso]: Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. [Qualitative Activity Recognition of Weight Lifting Exercises](http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf). Proceedings of 4th International Conference in Cooperation with SIGCHI (Augmented Human '13) . Stuttgart, Germany: ACM SIGCHI, 2013. 
-
 
 <aside>
 **Figure  1: Location of body sensors**[^sensors]
@@ -30,11 +29,10 @@ attempts not to distinguish *what* activity is being done, but rather to assess
 
 [^sensors]: Image obtained from http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises
 
-In the study they use sensors that <q>... *provide three-axes
+In the aforementioned study they use sensors that <q>... *provide three-axes
 acceleration, gyroscope and magnetometer data* ...</q>, with a Bluetooth
 module that allowed them to capture the experimental data. These sensors
-were attached
-(see *Figure  1*), to 
+were attached (see *Figure  1*), to 
 <q>... *six male participants aged between 20-28 years, with little
 weight lifting experience* ...</q> who performed one set of ten repetitions
 of the Unilateral Dumbbell Biceps Curl with a 1.25kg (light) dumbbell, 
@@ -50,14 +48,16 @@ in five different manners (one correct and four incorrect):
 
 
 
-We had two datasets in CSV format, one to be used for
+There were two datasets in CSV format, one to be used for
 [training](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-train_data.csv), and another one for [testing](https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing_data.csv). The training dataset contained 19622 rows and 
 160 columns, including the `classe` variable 
 which classified the entry according to the manner in which it was 
 performed (*vide supra*). The testing  dataset has only 
 20 rows and 160 columns, with the difference
 that instead of the `classe` variable, there is an `problem_id` column to be
-used as an identifier for the prediction results.
+used as an identifier for the prediction results, and was supposed to be used
+for a second part of the assignment dealing that dealt with specific class
+prediction.
 
 <aside>
 
@@ -106,7 +106,7 @@ used as an identifier for the prediction results.
 The first seven columns of the training dataset 
 (*X*, *user_name*, *raw_timestamp_part_1*, *raw_timestamp_part_2*, *cvtd_timestamp*, *new_window*, *num_window*)
 are not related to the sensor measurements, but rather to the 
-identity of the person, and the timestamps and capture windows 
+identity of the person, and the time stamps and capture windows 
 for the sensor data 
 (see Table  1). 
 Because I am trying to produce a predictive model that only relies on 
@@ -115,10 +115,10 @@ these columns and only consider the sensor values as important factors.
 In a similar fashion, the first seven columns of the testing datasets were also removed. This operation left me with 153 columns in the
 data frames.
 
-In the resulting data, each of the four sensors
+In the resulting data, for each of the four sensors
 positioned at the arm, forearm, belt, and dumbbell respectively, there are
 38 related measurements (see Table  2 in 
-Appendix  1). So, we will try to
+Appendix  1). So, I will try to
 select from these 152 numeric variables, the ones that are
 more relevant for a predictive model.
 
@@ -126,14 +126,14 @@ The automatic column type assignment from the `read.csv()` R function was not
 always correct, in particular because several of the numeric columns contained 
 text data coming from sensor reading errors (e.g. "#DIV/0!"). So, I forced all
 of the sensor readings to be numeric, and also set the `classe` column as a
-factor that contined the exercise classification.
+factor that contained the exercise classification.
 
 
 
 As a result of the type assignment, some columns contained only `NA` values,
 so these were not useful and were removed from the dataset. Also, using the
 `nearZeroVar()` function of the `caret` package, I eliminated the columns that
-were considered uniformative (zero or near zero variance predictors).
+were considered uninformative (zero or near zero variance predictors).
 
 
 
@@ -160,30 +160,32 @@ were considered uniformative (zero or near zero variance predictors).
 
 </aside>
 
-After that last operation, the training dataframe had only 
-118 including the classification column. Of these remaining
-variables, I checked how many of them contained too many missing data values. 
-Initially I set the threshold to 80%, but soon find out that there were two cases:
-columns without any missing data, and columns that had ~98% of their 
-data as missing (see Table  3). 
-Trying to impute values in the latter could be done but
+After that last operation, the training data frame had only 
+118 variables including the classification column.
+Of these remaining variables, I checked to see how many of them contained 
+too many missing data values. Initially I set the threshold to 80%, but 
+soon found out that there were two cases: columns without any missing 
+data, and columns that had about 98% of their data as missing 
+(see Table  3). 
+Trying to impute values in the latter cases could be done, but
 is unlikely that we would obtain anything reasonable or useful as a predictor, 
 thus, those 65 columns were also removed from the dataset.
 
-In the end we will be using measurements of the *x*, *y*, and *z* axis of
-the acceleration, gyroscope, and magnetometer sensors, as well as their
-overall acceleration, pitch, roll and yaw (see 
+In the end we will be using measurements of the *x*, *y*, and *z* axis 
+components of the acceleration, gyroscope, and magnetometer sensors, 
+as well as the overall acceleration, pitch, roll and yaw (see 
 Table  4 in
 Appendix  2).
 
 ## Generating and validating a Random Forest predictive model
 
-Of the two datasets, the one for testing is to be used to a second part of the
-assignment (prediction), and thus cannot be used to assess the validity 
-of the predictive model I was planning to build. So I decided to split the
-"training" dataset into one to be used to perform the random forest model 
-training (75% of the data), and another to do the validation (25% of the data)
-of said model.
+As the provided testing dataset is to be used in a different part of the
+assignment (prediction), it could not be used to assess the validity 
+of the predictive model I was going to build. So I decided to split the
+given "training" dataset into one to be used to perform the random forest model 
+training (75% of the data), and another to do validate the model (25% of the data).
+The training will also try to assess the quality of the model using an
+"out of bag" (OOB) error estimate using cross-validation.
 
 
 
@@ -191,17 +193,18 @@ The model training was done using the standard random forest
 (`rf`) algorithm[^rfref] method available in the `caret` package, with
 the default parameters and doing a 10-fold cross validation. I used the
 `classe` variable as the dependent and all the other sensor variables as predictors.
-This model gave an out-of-bag error (OOB) of 0.6%, which
-indicates that it could be a good classifier.
+This model gave an OOB error of 0.6%, which indicates that it could be 
+a good classifier when used with a new dataset.
 
 [^rfref]: [randomForest: Breiman and Cutler's random forests for classification and regression](http://cran.r-project.org/web/packages/randomForest/)
 
 
 
-Using the reserved validation set I calculated
+Using the reserved validation set, I calculated
 the confusion matrix (Table  5),
 and other relevant statistics using the `confusionMatrix()`
-function of the `caret` package. 
+function of the `caret` package. The confusion matrix shows that the
+model does a reasonable good job at predicting the exercise quality class.
 
 <aside>
 **Table  5: Confusion Matrix (Predicted vs Reference) for Random Forest model**
@@ -259,32 +262,32 @@ function of the `caret` package.
 </aside>
 
 Comparing the prediction for validation set with the known class values, 
-yielded an acccuracy of 0.9943
-(95% confindence interval: 
+yielded an accuracy of 0.9943
+(95% confidence interval: 
 [0.9918, 
 0.9962]). The estimated accuracy
 is well above the "no information rate" statistic of 
 0.2845.
-The model also has a high kappa satistic of 0.9928,
-which suggest that we obtained a good classifier. 
+The model also has a high kappa statistic of 0.9928,
+which suggest that the process yielded a good classifier. 
 Overall this predictive model compares well with what was reported 
 in the original study (an accuracy of 0.9803).
 
 The first 20 model predictors can be seen in Figure  2,
-and the complete list of predictors (ordered by their mean drecrease in 
+and the complete list of predictors (ordered by their mean decrease in 
 accuracy) is  in Table  6 
 (Appendix  3)
 
 **Figure  2: Variable Importance for Random Forest model (first 20 variables)**
 <div class="fullwidth"> <img src="images/importance-plot-1.png"><aside style="margin-top: 0em"><aside></div>
 
-This plot indicates that the measurements of the belt sensor (roll, yaw,
-and pitch), the forearm (pitch) and the dumbbell (magnetometer), 
+This plot indicates that the measurements of the belt sensor (*roll*, *yaw*,
+and *pitch*), the forearm (*pitch*) and the dumbbell (*magnetic component*), 
 are the most important for distinguishing whether this
 particular exercise is being done correctly or not. This makes sense as the
 way the core body moves and the rotation of the forearm, are closely related 
 to a correct execution of the biceps curl, and in the case of the metallic
-dumbbell the position changes are more readily detected by the magnetometer.
+dumbbell the position changes are readily detected by the magnetometer.
 
 ## Appendices
 
@@ -1166,7 +1169,7 @@ dumbbell the position changes are more readily detected by the magnetometer.
 
 ### Appendix  4: Reproducibility information
 
-The source code for the RMarkdown document and other accesory artifacts 
+The source code for the R Markdown document and other accessory artifacts 
 is available at the repository:
 [https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015](https://github.com/jmcastagnetto/practical_machine_learning-coursera-june2015)
 
