@@ -55,7 +55,7 @@ which classified the entry according to the how well the exercise was
 performed (*vide supra*). The testing  dataset has only 
 20 rows and 160 columns, and
 instead of the `classe` variable there is an `problem_id` column to be
-used as an identifier for the prediction results. The latter 
+used as an identifier for the prediction results. The latter set,
 was to be used for a different part of the assignment dealing 
 with specific class prediction.
 
@@ -112,8 +112,8 @@ for the sensor data
 Because I am trying to produce a predictive model that only relies on 
 the quantitative sensor measurements, I decided to remove
 these columns. In a similar fashion, the first seven columns of the testing 
-dataset were also removed. This operation left me with 
-153 columns in both data frames.
+dataset were also removed. This operation left me with a total of
+153 columns in each data frames.
 
 The data frames contained for each of the four sensors
 (positioned at the arm, forearm, belt, and dumbbell respectively), 
@@ -271,9 +271,9 @@ is well above the "no information rate" statistic of
 0.2845.
 The validation results also in a high kappa statistic of 
 0.9928,
-which suggest a that the model is a very good classifier. 
-Overall, this model compares well with  
-the 0.9803 accuracy that was reported in original.
+which suggest a very good classifier. 
+Overall, this model compares well with the 0.9803 accuracy that was 
+reported in the original work.
 
 The first 20 model predictors can be seen in Figure  2,
 and the complete list of predictors (ordered by their mean decrease in 
